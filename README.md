@@ -2,17 +2,17 @@
 
 **Chirper** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **2** hours spent in total
+Time spent: **9** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
 - [x] User can sign in using OAuth login flow
-- [ ] User can view last 20 tweets from their home timeline
-- [ ] The current signed in user will be persisted across restarts
-- [ ] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
-- [ ] Retweeting and favoriting should increment the retweet and favorite count.
+- [x] User can view last 20 tweets from their home timeline
+- [x] The current signed in user will be persisted across restarts
+- [x] In the home timeline, user can view tweet with the user profile picture, username, tweet text, and timestamp.
+- [Didn't have enough time to implement, but did try] Retweeting and favoriting should increment the retweet and favorite count.
 
 The following **optional** features are implemented:
 
@@ -33,13 +33,15 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/oLnd8NU.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/WgTOAWm.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
+1. Auto Layout took way too long to get right. Spent too much time getting constraints right.
+2. Populating the timeline took longer than expected due to dumb mistakes... courtesy of who is writing this.
 
 ## License
 
