@@ -16,7 +16,6 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweetButton: UIButton!
-    @IBOutlet weak var replyButton: UIButton!
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
@@ -35,8 +34,9 @@ class DetailViewController: UIViewController {
         nameLabel.text = tweet.name as? String
         usernameLabel.text = "@\(tweet.screenname as! String)"
         timestampLabel.text = timeLabelString
-        retweetCountLabel.text = "\(tweet.retweetCount) Retweets"
-        favoriteCountLabel.text = "\(tweet.favoritesCount) Likes"
+        retweetCountLabel.text = "\(tweet.retweetCount)"
+        favoriteCountLabel.text = "\(tweet.favoritesCount)"
+        tweetLabel.text = tweet.text as? String
         
         if tweet.retweeted {
             retweetButton.setImage(UIImage(named: "retweet-action-on-green"), forState: .Normal)
