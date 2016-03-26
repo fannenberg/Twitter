@@ -84,4 +84,61 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
 
     }
+    
+    // adding retweet and unretweet
+    
+    func reTweet(tweetID: String) {
+        
+        POST("1.1/statuses/retweet/\(tweetID).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("User is able to retweet") // added for debugging purposes
+            
+        }, failure: { (task: NSURLSessionDataTask?, error: NSError!) -> Void in
+            print("Boo! Try again") // added for debugging purposes
+            print("error: \(error.localizedDescription)")
+        })
+    
+    }
+    
+    func unRetweet (tweetID: String) {
+        
+        POST("1.1/statuses/unretweet/\(tweetID).json", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("User is able to unretweet") // added for debugging purposes
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Boo! Try again") // added for debugging purposes
+                print("error: \(error.localizedDescription)")
+        })
+        
+    }
+    
+    func favorite (tweetID: String) {
+        
+        POST("1.1/favorites/create.json?id=\(tweetID)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("User is able to favorite") // added for debugging purposes
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Boo! Try again") // added for debugging purposes
+                print("error: \(error.localizedDescription)")
+        })
+    }
+    
+    func unFavorite (tweetID: String) {
+        
+        POST("1.1/favorites/destroy.json?id=\(tweetID)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response: AnyObject?) -> Void in
+            print("User is able to unfavorite") // added for debugging purposes
+            
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError!) -> Void in
+                print("Boo! Try again") // added for debugging purposes
+                print("error: \(error.localizedDescription)")
+        })
+    }
+    
+    func tweeting (tweetField: String) {
+        
+        POST("1.1/statuses/update.json?status=\(tweetField)", parameters: nil, progress: nil, success: { (task: NSURLSessionDataTask, response:AnyObject?) -> Void in
+            print("User can tweet! Super")
+            }, failure: { (task: NSURLSessionDataTask?, error: NSError) -> Void in
+                print(error.localizedDescription)
+        })
+    }
 }

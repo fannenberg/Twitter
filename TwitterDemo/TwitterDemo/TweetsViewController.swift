@@ -11,6 +11,8 @@ import UIKit
 class TweetsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tweets: [Tweet]!
+    let client = TwitterClient.sharedInstance
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -22,19 +24,13 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
         
-        TwitterClient.sharedInstance.homeTimeline({ (tweets: [Tweet]) -> () in
+        client.homeTimeline({ (tweets: [Tweet]) -> () in
             self.tweets = tweets
-            for tweet in tweets {
-                print(tweet.text)
-            }
             self.tableView.reloadData()
             
         }, failure: { (error: NSError) -> () in
                 print(error.localizedDescription)
-            })
-        
-
-        // Do any additional setup after loading the view.
+        })
         
     }
 
@@ -61,17 +57,71 @@ class TweetsViewController: UIViewController, UITableViewDataSource, UITableView
     
     
     @IBAction func onLogoutButton(sender: AnyObject) {
-        TwitterClient.sharedInstance.logout()
+        client.logout()
     }
 
-    /*
-    // MARK: - Navigation
+    @IBAction func onRetweet(sender: AnyObject) {
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetCell
+        let indexpath = tableView.indexPathForCell(cell)
+        let tweet = tweets[indexpath!.row]
+        
+        if tweet.retweeted == false {
+            self.tweets![indexpath!.row].retweetCount += 1
+            tweet.retweeted = true
+            client.reTweet(tweet.tweetID!)
+            tableView.reloadData()
+            
+        } else if tweet.retweeted == true {
+            self.tweets![indexpath!.row].retweetCount -= 1
+            tweet.retweeted = false
+            client.unRetweet(tweet.tweetID!)
+            tableView.reloadData()
+        }
+    }
+    
+    @IBAction func onFavorite(sender: AnyObject) {
+        
+        let button = sender as! UIButton
+        let view = button.superview!
+        let cell = view.superview as! TweetCell
+        let indexpath = tableView.indexPathForCell(cell)
+        let tweet = tweets[indexpath!.row]
+        
+        if tweet.favorited == false {
+            self.tweets![indexpath!.row].favoritesCount += 1
+            tweet.favorited = true
+            client.favorite(tweet.tweetID!)
+            tableView.reloadData()
+            
+        } else if tweet.favorited == true {
+            self.tweets![indexpath!.row].favoritesCount -= 1
+            tweet.favorited = false
+            client.unFavorite(tweet.tweetID!)
+            tableView.reloadData()
+        }
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "detailSegue" {
+            let cell = sender as! UITableViewCell
+            let indexPath = tableView.indexPathForCell(cell)
+            let tweet = tweets![indexPath!.row]
+            
+            let detailViewController = segue.destinationViewController as! DetailViewController
+            detailViewController.tweet = tweet
+            print("Detail Segue got activated")
+        }
+        
+        if segue.identifier == "composeSegue" {
+            let profileUrl = User.currentUser?.profileUrl
+            let composeViewController = segue.destinationViewController as! ComposeViewController
+            composeViewController.profileUrl = profileUrl
+        }
     }
-    */
+    
 
 }
